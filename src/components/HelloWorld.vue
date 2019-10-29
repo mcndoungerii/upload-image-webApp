@@ -1,10 +1,12 @@
 <template>
   <div class="hello">
     <input type="file" @change="onFileSelected" />
+    <button @click="onUpload">Upload</button>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "HelloWorld",
 
@@ -17,6 +19,21 @@ export default {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0];
       console.log(this.selectedFile);
+    },
+    onUpload() {
+      const fd = new FormData(); //this is a JS method which converts any file to binary data which can be stored in the backend.
+      fd.append("image", this.selectedFile, this.selectedFile.name);
+      axios
+        .post("url", fd, {
+          onUploadProgress: uploadEvent => {
+            console.log(
+              "Upload Progress:" +
+                Math.round(uploadEvent.loaded / uploadEvent.total) * 100 +
+                "%"
+            );
+          }
+        })
+        .then(res => console.log(res));
     }
   }
 };
