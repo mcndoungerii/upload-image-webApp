@@ -1,6 +1,8 @@
 <template>
   <div class="hello">
-    <input type="file" @change="onFileSelected" />
+    <input style="display: none" type="file" @change="onFileSelected" ref="fileInput" />
+    <button @click="$refs.fileInput.click()">Pick File</button>
+
     <button @click="onUpload">Upload</button>
   </div>
 </template>
