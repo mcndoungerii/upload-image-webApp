@@ -26,15 +26,19 @@ export default {
       const fd = new FormData(); //this is a JS method which converts any file to binary data which can be stored in the backend.
       fd.append("image", this.selectedFile, this.selectedFile.name);
       axios
-        .post("url", fd, {
-          onUploadProgress: uploadEvent => {
-            console.log(
-              "Upload Progress:" +
-                Math.round(uploadEvent.loaded / uploadEvent.total) * 100 +
-                "%"
-            );
+        .post(
+          "https://us-central1-fir-cloud-functions-fc5d6.cloudfunctions.net/upload",
+          fd,
+          {
+            onUploadProgress: uploadEvent => {
+              console.log(
+                "Upload Progress:" +
+                  Math.round(uploadEvent.loaded / uploadEvent.total) * 100 +
+                  "%"
+              );
+            }
           }
-        })
+        )
         .then(res => console.log(res));
     }
   }
